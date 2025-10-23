@@ -3,7 +3,7 @@ import fastify from "../node_modules/fastify/fastify.js";
 import userRoutes from "./routes/user.routes.js";
 
 const app = fastify({
-  logger: true,
+  //logger: true,
 });
 
 app.register(userRoutes, {prefix: "/users"});
