@@ -1,17 +1,10 @@
 import "dotenv/config";
 import fastify from "../node_modules/fastify/fastify.js";
 import userRoutes from "./routes/user.routes.js";
-import routes from "./app.js";
-
 const app = fastify({
-  //logger: true,
+//logger: true,
 });
-
-app.register(routes);
-
+app.register(userRoutes, { prefix: "/users" });
 app.listen({ host: "0.0.0.0", port: 3333 }).then(() => {
-  console.log("Server is running");
+    console.log("Server is running");
 });
-
-
-

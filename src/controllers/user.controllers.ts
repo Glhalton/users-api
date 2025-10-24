@@ -1,5 +1,9 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { createUserSchema, updateUserSchema, userIdSchema } from "../schemas/user.schemas.js";
+import {
+  createUserSchema,
+  updateUserSchema,
+  userIdSchema,
+} from "../schemas/user.schemas.js";
 import {
   createUserService,
   deleteUserByIdService,
@@ -24,7 +28,7 @@ export async function createUserController(
     const createdUser = await createUserService(dataParsed);
 
     return reply
-      .status(401)
+      .status(201)
       .send({ message: "Usuário criado com sucesso:", createdUser });
   } catch (error: any) {
     return reply.status(400).send({ message: error.message });
@@ -87,21 +91,24 @@ export async function deleteUserByIdController(
   }
 }
 
-export async function updateUserByIdController(request: FastifyRequest, reply: FastifyReply){
-  try{
-    const {id} = userIdSchema.parse(request.params);
+export async function updateUserByIdController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  try {
+    const { id } = userIdSchema.parse(request.params);
     const dataParsed = updateUserSchema.parse(request.body);
 
     const user = await getUserByIdService(id);
 
-    if(!user){
-      throw new Error("Usuário não encontrado!")
+    if (!user) {
+      throw new Error("Usuário não encontrado!");
     }
 
     const updatedUser = await updateUserByIdService(id, dataParsed);
 
-    return reply.status(200).send({updatedUser})
-  } catch (error: any){
-    return reply.status(400).send({message: error.message})
+    return reply.status(200).send({ updatedUser });
+  } catch (error: any) {
+    return reply.status(400).send({ message: error.message });
   }
 }
